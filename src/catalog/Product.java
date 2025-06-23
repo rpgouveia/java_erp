@@ -1,4 +1,4 @@
-package products;
+package catalog;
 
 public class Product {
     // atributos
