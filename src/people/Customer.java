@@ -1,6 +1,9 @@
 package people;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import sales.SalesOrder;
 
 public class Customer {
     // atributos
@@ -12,7 +15,19 @@ public class Customer {
     private String address;
     private Date registrationDate;
 
-    // métodos Getters e Setters
+    // arrayList na classe modelo
+    private ArrayList<SalesOrder> purchaseHistory;
+    private ArrayList<String> preferences;
+    private ArrayList<String> observations;
+
+    // construtor
+    public Customer() {
+        this.purchaseHistory = new ArrayList<>();
+        this.preferences = new ArrayList<>();
+        this.observations = new ArrayList<>();
+    }
+
+    // getters e setters
     public int getId() {
         return id;
     }
@@ -67,5 +82,57 @@ public class Customer {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    // getters e setters para as listas
+    public ArrayList<SalesOrder> getPurchaseHistory() {
+        return purchaseHistory;
+    }
+
+    public void setPurchaseHistory(ArrayList<SalesOrder> purchaseHistory) {
+        this.purchaseHistory = purchaseHistory;
+    }
+
+    public ArrayList<String> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(ArrayList<String> preferences) {
+        this.preferences = preferences;
+    }
+
+    public ArrayList<String> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(ArrayList<String> observations) {
+        this.observations = observations;
+    }
+
+    // métodos para manipular os arrayLists
+    public void addPurchase(SalesOrder salesOrder) {
+        this.purchaseHistory.add(salesOrder);
+    }
+
+    public void addPreference(String preference) {
+        this.preferences.add(preference);
+    }
+
+    public void addObservation(String observation) {
+        this.observations.add(observation);
+    }
+
+    // método para calcular total gasto pelo cliente
+    public double getTotalSpent() {
+        double total = 0.0;
+        for (SalesOrder order : purchaseHistory) {
+            total += order.getTotalValue();
+        }
+        return total;
+    }
+
+    // método para contar número de compras
+    public int getPurchaseCount() {
+        return purchaseHistory.size();
     }
 }

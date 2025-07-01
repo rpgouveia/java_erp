@@ -1,5 +1,6 @@
 package sales;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SalesOrder {
@@ -10,7 +11,20 @@ public class SalesOrder {
     private String status;
     private double discount;
 
-    // métodos Getters e Setters
+    // arrayList na classe modelo
+    private ArrayList<SalesItem> salesItems;
+    private ArrayList<String> statusHistory;
+    private ArrayList<String> comments;
+
+    // construtor
+    public SalesOrder() {
+        this.salesItems = new ArrayList<>();
+        this.statusHistory = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.statusHistory.add("Criado em " + new Date());
+    }
+
+    // getters e setters
     public int getOrderNumber() {
         return orderNumber;
     }
@@ -41,6 +55,7 @@ public class SalesOrder {
 
     public void setStatus(String status) {
         this.status = status;
+        this.statusHistory.add("Status alterado para: " + status + " em " + new Date());
     }
 
     public double getDiscount() {
@@ -49,5 +64,63 @@ public class SalesOrder {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    // getters e setters para arrayLists
+    public ArrayList<SalesItem> getSalesItems() {
+        return salesItems;
+    }
+
+    public void setSalesItems(ArrayList<SalesItem> salesItems) {
+        this.salesItems = salesItems;
+    }
+
+    public ArrayList<String> getStatusHistory() {
+        return statusHistory;
+    }
+
+    public void setStatusHistory(ArrayList<String> statusHistory) {
+        this.statusHistory = statusHistory;
+    }
+
+    public ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
+    }
+
+    // métodos para manipular os arrayLists
+    public void addSalesItem(SalesItem item) {
+        this.salesItems.add(item);
+        recalculateTotal();
+    }
+
+    public void addComment(String comment) {
+        this.comments.add(comment + " - " + new Date());
+    }
+
+    // método para recalcular total baseado nos itens
+    public void recalculateTotal() {
+        double total = 0.0;
+        for (SalesItem item : salesItems) {
+            total += item.getSubtotal();
+        }
+        this.totalValue = total - this.discount;
+    }
+
+    // método para contar número de itens
+    public int getItemCount() {
+        return salesItems.size();
+    }
+
+    // método para obter quantidade total de produtos
+    public int getTotalQuantity() {
+        int total = 0;
+        for (SalesItem item : salesItems) {
+            total += item.getQuantity();
+        }
+        return total;
     }
 }
